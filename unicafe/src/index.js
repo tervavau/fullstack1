@@ -3,70 +3,81 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-  class App extends React.Component {
-    constructor(props) {
-      super(props)
-      this.state = {
-        hyva: 0,
-        neutraali: 0,
-        huono: 0,
-        keskiarvo: 0,
-        positiivisia: 0
-      }
-    }
-  
-    palautteitaAnnettu() {
-        return (this.state.hyva + this.state.neutraali + this.state.huono)
-    }
-    laskeKeskiarvo() {
-        if (this.palautteitaAnnettu())
-          return ((this.state.hyva - this.state.huono) / this.palautteitaAnnettu()).toFixed(1)
-        else return 0
-    }
-    laskePositiiviset() {
-      if (this.palautteitaAnnettu())
-        return (100*(this.state.hyva / (this.palautteitaAnnettu()))).toFixed(1)
-      else return 0
-    }
 
-    klikHyva = () => {
-        //debugger
-      this.setState({
-        hyva: this.state.hyva + 1       
-      })
-    }
-  
-    klikNeutraali = () => {
-      this.setState({
-        neutraali: this.state.neutraali + 1
-      })
-    }
-    klikHuono = () => {
-        this.setState({
-          huono: this.state.huono + 1
-        })
-      }
-    render() {
-      return (
-        <div>
-          <h2>anna palautetta</h2>
-          <div>           
-            <button onClick={this.klikHyva}>Hyvä</button>
-            <button onClick={this.klikNeutraali}>Neutraali</button>
-            <button onClick={this.klikHuono}>Huono</button>
-            <h2>statistiikka</h2>
-            <p>Hyvä {this.state.hyva}<br />
-            Neutraali {this.state.neutraali}<br />
-            Huono {this.state.huono}<br />
-            Keskiarvo {this.laskeKeskiarvo()}<br />
-            Positiivisia {this.laskePositiiviset()}%<br />
-            </p>
-          </div>
-        </div>
-      )
+const Statistic = ({nimi, arvo}) => {
+  return(
+    <div>
+      {nimi} {arvo}
+    </div>
+  )
+}
+
+const Statistics = (props) => {
+  let lkm = props.stats.hyva + props.stats.neutraali + props.stats.huono
+  let keskiarvo = (lkm !== 0 ? ((props.stats.hyva - props.stats.huono) / lkm) : 0).toFixed(1)
+  let positiiviset = (lkm !== 0 ? (100*(props.stats.hyva / lkm)) : 0).toFixed(1)
+  return (
+    <div>
+      <h2>statistiikka</h2>
+      <Statistic nimi={"Hyvä"} arvo={props.stats.hyva}/>
+      <Statistic nimi={"Neutraali"} arvo={props.stats.neutraali}/>
+      <Statistic nimi={"Huono"} arvo={props.stats.huono}/>
+      <Statistic nimi={"keskiarvo"} arvo={keskiarvo}/>
+      <Statistic nimi={"positiivisia"} arvo={positiiviset+"%"}/>
+    </div>
+  )
+}
+
+const Button =  (props) => {
+  const { handleClick, text } = props
+  return (
+    <button onClick={handleClick}>
+      {text}
+    </button>
+  )
+}
+
+class App extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      hyva: 0,
+      neutraali: 0,
+      huono: 0     
     }
   }
-  ReactDOM.render(
-    <App />,
-    document.getElementById('root')
-  )
+
+  klikHyva = () => {
+    this.setState({
+      hyva: this.state.hyva + 1
+    })
+  }
+
+  klikNeutraali = () => {
+    this.setState({
+      neutraali: this.state.neutraali + 1
+    })
+  }
+  klikHuono = () => {
+      this.setState({
+        huono: this.state.huono + 1
+      })
+    }
+  render() {
+    return (
+      <div>
+        <h2>anna palautetta</h2>
+        <div>           
+          <Button handleClick={this.klikHyva} text={"Hyvä"}/>
+          <Button handleClick={this.klikNeutraali} text={"Neutraali"}/>
+          <Button handleClick={this.klikHuono}text={"Huono"}/>
+        </div>
+        <Statistics stats={this.state}/>
+     </div>
+    )
+  }
+}
+ReactDOM.render(
+  <App />,
+  document.getElementById('root')
+)
