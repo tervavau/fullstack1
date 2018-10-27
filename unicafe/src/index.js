@@ -9,14 +9,30 @@ import './index.css';
       this.state = {
         hyva: 0,
         neutraali: 0,
-        huono: 0
+        huono: 0,
+        keskiarvo: 0,
+        positiivisia: 0
       }
     }
   
+    palautteitaAnnettu() {
+        return (this.state.hyva + this.state.neutraali + this.state.huono)
+    }
+    laskeKeskiarvo() {
+        if (this.palautteitaAnnettu())
+          return ((this.state.hyva - this.state.huono) / this.palautteitaAnnettu()).toFixed(1)
+        else return 0
+    }
+    laskePositiiviset() {
+      if (this.palautteitaAnnettu())
+        return (100*(this.state.hyva / (this.palautteitaAnnettu()))).toFixed(1)
+      else return 0
+    }
+
     klikHyva = () => {
         //debugger
       this.setState({
-        hyva: this.state.hyva + 1
+        hyva: this.state.hyva + 1       
       })
     }
   
@@ -42,6 +58,8 @@ import './index.css';
             <p>Hyvä {this.state.hyva}<br />
             Neutraali {this.state.neutraali}<br />
             Huono {this.state.huono}<br />
+            Keskiarvo {this.laskeKeskiarvo()}<br />
+            Positiivisia {this.laskePositiiviset()}%<br />
             </p>
           </div>
         </div>
