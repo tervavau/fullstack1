@@ -16,15 +16,19 @@ const Statistics = (props) => {
   let lkm = props.stats.hyva + props.stats.neutraali + props.stats.huono
   let keskiarvo = (lkm !== 0 ? ((props.stats.hyva - props.stats.huono) / lkm) : 0).toFixed(1)
   let positiiviset = (lkm !== 0 ? (100*(props.stats.hyva / lkm)) : 0).toFixed(1)
-  return (
-    <div>
-      <h2>statistiikka</h2>
-      <Statistic nimi={"Hyvä"} arvo={props.stats.hyva}/>
-      <Statistic nimi={"Neutraali"} arvo={props.stats.neutraali}/>
-      <Statistic nimi={"Huono"} arvo={props.stats.huono}/>
-      <Statistic nimi={"keskiarvo"} arvo={keskiarvo}/>
-      <Statistic nimi={"positiivisia"} arvo={positiiviset+"%"}/>
-    </div>
+  if (lkm !== 0) { 
+    return (
+      <div>
+        <Statistic nimi={"Hyvä"} arvo={props.stats.hyva}/>
+        <Statistic nimi={"Neutraali"} arvo={props.stats.neutraali}/>
+        <Statistic nimi={"Huono"} arvo={props.stats.huono}/>
+        <Statistic nimi={"keskiarvo"} arvo={keskiarvo}/>
+        <Statistic nimi={"positiivisia"} arvo={positiiviset+"%"}/>
+      </div>
+    )
+  }
+  else return (
+    <div>ei yhtään palautetta annettu</div>
   )
 }
 
@@ -72,6 +76,7 @@ class App extends React.Component {
           <Button handleClick={this.klikNeutraali} text={"Neutraali"}/>
           <Button handleClick={this.klikHuono}text={"Huono"}/>
         </div>
+        <h2>statistiikka</h2>
         <Statistics stats={this.state}/>
      </div>
     )
