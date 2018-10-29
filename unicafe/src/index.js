@@ -6,9 +6,9 @@ import './index.css';
 
 const Statistic = ({nimi, arvo}) => {
   return(
-    <div>
-      {nimi} {arvo}
-    </div>
+      <tr>
+      <td>{nimi}</td><td>{arvo}</td>
+      </tr>
   )
 }
 
@@ -18,13 +18,15 @@ const Statistics = (props) => {
   let positiiviset = (lkm !== 0 ? (100*(props.stats.hyva / lkm)) : 0).toFixed(1)
   if (lkm !== 0) { 
     return (
-      <div>
+      <table>
+        <tbody>
         <Statistic nimi={"Hyvä"} arvo={props.stats.hyva}/>
         <Statistic nimi={"Neutraali"} arvo={props.stats.neutraali}/>
         <Statistic nimi={"Huono"} arvo={props.stats.huono}/>
         <Statistic nimi={"keskiarvo"} arvo={keskiarvo}/>
         <Statistic nimi={"positiivisia"} arvo={positiiviset+"%"}/>
-      </div>
+        </tbody>
+      </table>
     )
   }
   else return (
@@ -80,6 +82,7 @@ class App extends React.Component {
         <h2>statistiikka</h2>
         <Statistics stats={this.state}/>
      </div>
+    
     )
   }
 }
