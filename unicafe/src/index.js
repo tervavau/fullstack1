@@ -51,30 +51,31 @@ class App extends React.Component {
     }
   }
 
-  klikHyva = () => {
-    this.setState({
-      hyva: this.state.hyva + 1
-    })
-  }
-
-  klikNeutraali = () => {
-    this.setState({
-      neutraali: this.state.neutraali + 1
-    })
-  }
-  klikHuono = () => {
-      this.setState({
-        huono: this.state.huono + 1
-      })
+  klikButton = (name) => {
+    return () => {
+      if (name === "hyva") {
+        this.setState({
+          hyva: this.state.hyva + 1
+      })}
+      if (name === "neutraali") {
+        this.setState({
+          neutraali: this.state.neutraali + 1
+      })}
+      if (name === "huono") {
+        this.setState({
+          huono: this.state.huono + 1
+      })}
     }
+  }
+  
   render() {
     return (
       <div>
         <h2>anna palautetta</h2>
-        <div>           
-          <Button handleClick={this.klikHyva} text={"Hyvä"}/>
-          <Button handleClick={this.klikNeutraali} text={"Neutraali"}/>
-          <Button handleClick={this.klikHuono}text={"Huono"}/>
+        <div>    
+          <Button handleClick={this.klikButton('hyva')} text={"Hyvä"}/>       
+          <Button handleClick={this.klikButton('neutraali')} text={"Neutraali"}/>
+          <Button handleClick={this.klikButton('huono')} text={"Huono"}/>
         </div>
         <h2>statistiikka</h2>
         <Statistics stats={this.state}/>
