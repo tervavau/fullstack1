@@ -1,6 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
+const Votes = (props) => {
+  return (
+    <div>
+      has {props.blaarg.pisteet[props.blaarg.selected]} votes
+    </div>
+  )
+}
+
 const Button =  (props) => {
   const { handleClick, text } = props
   return (
@@ -15,15 +23,24 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      selected: 0
+      selected: 0,
+      pisteet: [0, 0, 0, 0, 0, 0]
     }
   }
 
   klikButton = (name) => {
     return () => {
-      if (name === "hyva") {
+      if (name === "rnd") {
+        let x = Math.floor(Math.random() * 6)
         this.setState({
-          selected: Math.floor(Math.random() * 6)
+          selected: x
+      })}
+      if (name === "votes") {
+        let kopio = [...this.state.pisteet]
+        kopio[this.state.selected] += 1
+        this.setState({
+          votes: this.state.votes + 1,
+          pisteet: kopio
       })}
     }
   }
@@ -33,7 +50,9 @@ class App extends React.Component {
       <div>
         {this.props.anecdotes[this.state.selected]}
         <div>    
-          <Button handleClick={this.klikButton('hyva')} text={"Next anecdote"}/>       
+          <Votes blaarg={this.state}/> 
+          <Button handleClick={this.klikButton('rnd')} text={"Next anecdote"}/>   
+          <Button handleClick={this.klikButton('votes')} text={"Vote"}/>  
         </div>
       </div>
     )
