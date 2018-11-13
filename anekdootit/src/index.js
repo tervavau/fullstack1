@@ -9,6 +9,19 @@ const Votes = (props) => {
   )
 }
 
+const Winner = (props) => {
+  let i = props.blaarg.pisteet.indexOf(Math.max(...props.blaarg.pisteet))
+  let maxvotes = Math.max(...props.blaarg.pisteet)
+  
+  return (
+    <div>
+    <h2>Anecdote with most votes:</h2>
+      {anecdotes[i]}<br/>
+      has {maxvotes} votes
+    </div>
+  )
+}
+
 const Button =  (props) => {
   const { handleClick, text } = props
   return (
@@ -17,7 +30,6 @@ const Button =  (props) => {
     </button>
   )
 }
-
 
 class App extends React.Component {
   constructor(props) {
@@ -53,6 +65,7 @@ class App extends React.Component {
           <Votes blaarg={this.state}/> 
           <Button handleClick={this.klikButton('rnd')} text={"Next anecdote"}/>   
           <Button handleClick={this.klikButton('votes')} text={"Vote"}/>  
+          <Winner blaarg={this.state}/> 
         </div>
       </div>
     )
